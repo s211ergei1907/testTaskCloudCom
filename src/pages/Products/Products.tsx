@@ -1,25 +1,16 @@
 import React, { useEffect, useState } from "react";
 import { Card } from "antd";
 import { axiosConfig } from "../../axios";
-
-interface ProductsData {
-  // интерфейс данных, соответствующий структуре ответа от сервера
-
-  id: number;
-  title: string;
-  description: string;
-  price: number;
-  discountPercentage: number;
-  rating: number;
-  stock: number;
-  brand: string;
-  category: string;
-  thumbnail: string;
-  images: string[];
-}
+import { useNavigate } from "react-router-dom";
+import { IProduct } from "./Products.type";
 
 const Products: React.FC = () => {
-  const [products, setProducts] = useState<ProductsData[]>([]);
+  const navigate = useNavigate();
+  const [products, setProducts] = useState<IProduct[]>([]);
+
+  const clickOnCart = () => {
+    navigate("/product/:id");
+  };
 
   const fetchResultDiscipline = async () => {
     try {
@@ -36,19 +27,18 @@ const Products: React.FC = () => {
     fetchResultDiscipline();
   }, []);
 
-  useEffect(() => {
-    console.log("Products", products);
-  }, [products]);
+  //TODO перенести стили
   return (
     <div
       style={{
         display: "grid",
-        gap: "10px",
+        gap: "40px",
         gridTemplateColumns: "repeat(4, 1fr)",
       }}
     >
       {products.map(({ thumbnail, title, description, price }) => (
         <Card
+          onClick={clickOnCart}
           hoverable
           style={{ width: 280, margin: "0 auto", maxWidth: "1100px" }}
           cover={<img alt="example" src={thumbnail} style={{ height: 200 }} />}
