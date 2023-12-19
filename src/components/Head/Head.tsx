@@ -1,6 +1,6 @@
 import React from "react";
 import { Layout, Menu } from "antd";
-import logo from "../assets/images/logoSDK.svg";
+import logo from "../../assets/images/logoSDK.svg";
 import { Outlet } from "react-router-dom";
 
 function Head() {

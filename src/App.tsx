@@ -2,7 +2,7 @@ import React from "react";
 import Product from "./pages/Product/Product";
 import Products from "./pages/Products/Products";
 import { BrowserRouter, Route, Routes } from "react-router-dom";
-import Head from "./components/Head";
+import Head from "./components/Head/Head";
 const App: React.FC = () => {
   return (
     <>
