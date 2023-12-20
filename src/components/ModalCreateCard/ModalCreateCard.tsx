@@ -1,17 +1,25 @@
 import React, { useState } from "react";
-import { Button, Form, Input, Modal, InputNumber } from "antd";
+import { Button, Form, Input, Modal, InputNumber, Upload } from "antd";
 import styles from "./ModalCreateCard.module.scss";
+import { axiosConfig } from "../../axios";
+import { UploadOutlined } from "@ant-design/icons";
 
 const ModalCreateCard: React.FC = () => {
   const [open, setOpen] = useState(false);
   const [form] = Form.useForm();
 
   const onFinish = (values: any) => {
-    // Обработка успешной отправки формы
-    console.log("Form values:", values);
+    const imagesArray = values.images.split(/[\s,]+/);
 
-    // Дополнительная логика
-    setOpen(false); // Закрыть модальное окно после успешной отправки
+    axiosConfig
+      .post("products/add", { ...values, images: imagesArray })
+      .then((response) => {
+        console.log("Успешный ответ:", response.data);
+      })
+      .catch((error) => {
+        console.error("Ошибка:", error);
+      });
+    setOpen(false);
   };
 
   const onFinishFailed = (errorInfo: any) => {
@@ -171,21 +179,21 @@ const ModalCreateCard: React.FC = () => {
             />
           </Form.Item>
           <Form.Item
-            label="Images "
+            label="Images"
             name="images"
             rules={[
               {
                 required: true,
-                message: "Пожалуйста укажите ссылки на картинки",
+                message: "Пожалуйста, укажите ссылки на картинки",
               },
             ]}
           >
             <Input.TextArea
               placeholder={
-                "Вставьте сссылки на картинки, формат(без кавычек):" +
-                " \nhttps://i.dummyjson.com/data/products/17/1.jpg," +
-                " \nhttps://i.dummyjson.com/data/products/17/3.jpg," +
-                " \nhttps://i.dummyjson.com/data/products/17/3.jpg"
+                "Вставьте ссылки на картинки, формат (без кавычек):" +
+                "\nhttps://i.dummyjson.com/data/products/17/1.jpg," +
+                "\nhttps://i.dummyjson.com/data/products/17/3.jpg," +
+                "\nhttps://i.dummyjson.com/data/products/17/3.jpg"
               }
             />
           </Form.Item>

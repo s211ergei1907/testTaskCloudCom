@@ -4,6 +4,7 @@ import { axiosConfig } from "../../axios";
 import { useNavigate } from "react-router-dom";
 import { IProduct } from "./Products.type";
 import ModalWindow from "../../components/ModalCreateCard/ModalCreateCard";
+import product from "../Product/Product";
 
 const Products: React.FC = () => {
   const navigate = useNavigate();
@@ -12,18 +13,17 @@ const Products: React.FC = () => {
     navigate(`/product/${id}`);
   };
 
-  const fetchResultDiscipline = async () => {
+  const fetchResultProducts = async () => {
     try {
       const { data } = await axiosConfig.get(`products`);
       setProducts(data.products);
-      // console.log(data.products);
     } catch (error) {
       console.error("Error fetching result Products:", error);
     }
   };
 
   useEffect(() => {
-    fetchResultDiscipline();
+    fetchResultProducts();
   }, []);
 
   //TODO перенести стили

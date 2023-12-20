@@ -22,7 +22,7 @@ function Head() {
   };
 
   return (
-    <div style={{ marginBottom: "30px" }}>
+    <div style={{ marginBottom: "30px", height: "calc(100vh - 64px )" }}>
       <Layout style={layoutStyle}>
         <Header style={headerStyle}>
           <img src={logo} alt={"А тут у нас логотип"} />
