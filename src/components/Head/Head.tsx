@@ -1,31 +1,23 @@
 import React from "react";
 import { Layout, Menu } from "antd";
 import logo from "../../assets/images/logoSDK.svg";
-import { Outlet } from "react-router-dom";
-
+import { Link, Outlet } from "react-router-dom";
+import styles from "./Head.module.scss";
 function Head() {
   const { Header } = Layout;
 
-  const headerStyle: React.CSSProperties = {
-    color: "#fff",
-    height: 64,
-    paddingInline: 48,
-    backgroundColor: "#3a6abd",
-    marginBottom: "70px",
-  };
-
-  const layoutStyle = {
-    borderRadius: 5,
-    overflow: "hidden",
-    width: "100%",
-    maxWidth: "100%",
-  };
-
   return (
-    <div style={{ marginBottom: "30px", height: "calc(100vh - 64px )" }}>
-      <Layout style={layoutStyle}>
-        <Header style={headerStyle}>
-          <img src={logo} alt={"А тут у нас логотип"} />
+    <div className={styles.header__wrap}>
+      <Layout className={styles.layoutStyle}>
+        <Header className={styles.headerStyle}>
+          <div className={styles.logoWrap}>
+            <Link to={"./products"}>
+              <img src={logo} alt={"А тут у нас логотип должен быть"} />
+            </Link>
+            <Link to={"./products"}>
+              <h3>Страница карточек</h3>
+            </Link>
+          </div>
         </Header>
         <Outlet />
       </Layout>

@@ -1,23 +1,48 @@
-import React, { useState } from "react";
+import React, { useState, useEffect } from "react";
 import { Button, Form, Input, Modal, InputNumber } from "antd";
-import styles from "./ModalCreateCard.module.scss";
+import styles from "./ModalUpdateCard.module.scss";
 import { axiosConfig } from "../../axios";
+import { useNavigate } from "react-router-dom";
 
-const ModalCreateCard: React.FC = () => {
+interface ModalUpdateCardProps {
+  idParam: string | undefined;
+}
+const ModalUpdateCard: React.FC<ModalUpdateCardProps> = ({ idParam }) => {
   const [open, setOpen] = useState(false);
   const [form] = Form.useForm();
+  const [productId, setProductId] = useState<number | null>(null);
+
+  const navigate = useNavigate();
+
+  useEffect(() => {
+    if (open && productId) {
+      axiosConfig
+        .get(`products/${productId}`)
+        .then((response) => {
+          const productData = response.data;
+          form.setFieldsValue(productData);
+        })
+        .catch((error) => {
+          console.error("Ошибка при загрузке данных:", error);
+        });
+    }
+  }, [open, productId, form]);
 
   const onFinish = (values: any) => {
-    const imagesArray = values.images.split(/[\s,]+/);
+    if (values && values.images) {
+      axiosConfig
+        .put(`products/${productId}`, { ...values })
+        .then((response) => {
+          console.log("Успешный обновлено:", response.data);
+          navigate("/products");
+        })
+        .catch((error) => {
+          console.error("Ошибка:", error);
+        });
+    } else {
+      console.error("Ошибка: свойство 'images' отсутствует в values");
+    }
 
-    axiosConfig
-      .post("products/add", { ...values, images: imagesArray })
-      .then((response) => {
-        console.log("Успешный ответ:", response.data);
-      })
-      .catch((error) => {
-        console.error("Ошибка:", error);
-      });
     setOpen(false);
   };
 
@@ -25,21 +50,29 @@ const ModalCreateCard: React.FC = () => {
     console.log("Ошибка:", errorInfo);
   };
 
+  const idNumber: number | null =
+    idParam !== undefined ? parseInt(idParam, 10) : null;
   return (
     <>
       <Button
         className={styles.button}
         type="primary"
-        onClick={() => setOpen(true)}
+        onClick={() => {
+          setProductId(idNumber);
+          setOpen(true);
+        }}
       >
-        Создать карточку
+        Обновить карточку
       </Button>
       <Modal
-        title="Создать карточку"
+        title="Обновить карточку"
         centered
         open={open}
         onOk={() => setOpen(false)}
-        onCancel={() => setOpen(false)}
+        onCancel={() => {
+          setProductId(null);
+          setOpen(false);
+        }}
         width={1500}
       >
         <Form
@@ -208,4 +241,4 @@ const ModalCreateCard: React.FC = () => {
   );
 };
 
-export default ModalCreateCard;
+export default ModalUpdateCard;

@@ -1,0 +1,35 @@
+.header__wrap {
+  height: 100vh;
+
+  .layoutStyle {
+    border-radius: 0;
+    overflow: hidden;
+    width: 100%;
+    max-width: 100%;
+
+    .headerStyle {
+      color: #fff;
+      height: 64px;
+      padding-inline: 48px;
+      background-color: #3a6abd;
+      margin-bottom: 70px;
+      transition: background-color 0.5s;
+
+      .logoWrap {
+        display: flex;
+
+        img {
+          margin-right: 30px;
+        }
+
+        h3 {
+          color: whitesmoke;
+
+          &:hover {
+            background-color: #2d558e;
+          }
+        }
+      }
+    }
+  }
+}

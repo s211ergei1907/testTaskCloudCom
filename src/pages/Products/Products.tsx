@@ -1,14 +1,15 @@
 import React, { useEffect, useState } from "react";
-import { Card, Modal } from "antd";
+import { Card } from "antd";
 import { axiosConfig } from "../../axios";
 import { useNavigate } from "react-router-dom";
 import { IProduct } from "./Products.type";
 import ModalWindow from "../../components/ModalCreateCard/ModalCreateCard";
-import product from "../Product/Product";
 
 const Products: React.FC = () => {
   const navigate = useNavigate();
   const [products, setProducts] = useState<IProduct[]>([]);
+  const [loading, setLoading] = useState(true); // Добавлено состояние для отслеживания загрузки
+
   const clickOnCart = (id: number) => {
     navigate(`/product/${id}`);
   };
@@ -19,12 +20,18 @@ const Products: React.FC = () => {
       setProducts(data.products);
     } catch (error) {
       console.error("Error fetching result Products:", error);
+    } finally {
+      setLoading(false); // Устанавливаем loading в false при завершении запроса
     }
   };
 
   useEffect(() => {
     fetchResultProducts();
   }, []);
+
+  if (loading) {
+    return <h1>Загрузка данных...</h1>;
+  }
 
   //TODO перенести стили
   return (
