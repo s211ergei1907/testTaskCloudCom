@@ -33,7 +33,8 @@ const ModalUpdateCard: React.FC<ModalUpdateCardProps> = ({ idParam }) => {
       axiosConfig
         .put(`products/${productId}`, { ...values })
         .then((response) => {
-          console.log("Успешный обновлено:", response.data);
+          console.log("Данные успешно обновлены:", response.data);
+          alert("Данные успешно обновлены");
           navigate("/products");
         })
         .catch((error) => {

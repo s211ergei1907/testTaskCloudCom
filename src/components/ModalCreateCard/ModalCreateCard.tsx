@@ -2,6 +2,7 @@ import React, { useState } from "react";
 import { Button, Form, Input, Modal, InputNumber } from "antd";
 import styles from "./ModalCreateCard.module.scss";
 import { axiosConfig } from "../../axios";
+import { log } from "util";
 
 const ModalCreateCard: React.FC = () => {
   const [open, setOpen] = useState(false);
@@ -13,7 +14,8 @@ const ModalCreateCard: React.FC = () => {
     axiosConfig
       .post("products/add", { ...values, images: imagesArray })
       .then((response) => {
-        console.log("Успешный ответ:", response.data);
+        console.log("Успешно создана карточка:", response.data);
+        alert("Успешно создана карточка");
       })
       .catch((error) => {
         console.error("Ошибка:", error);

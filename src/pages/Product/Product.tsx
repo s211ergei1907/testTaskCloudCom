@@ -14,6 +14,7 @@ export const Product: React.FC = () => {
     try {
       await axiosConfig.delete(`products/${idParam}`);
       console.log("Товар успешно удалён");
+      alert("Товар успешно удален");
       navigate("/products");
     } catch (error) {
       console.log("Не получилось удалить", error);
